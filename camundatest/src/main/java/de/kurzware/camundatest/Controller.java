@@ -1,16 +1,11 @@
 package de.kurzware.camundatest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +39,7 @@ public class Controller {
         log.info("Received HTTP " + responseString);
 
         Map<String, Object> variables = new HashMap<>();
-        variables.put(VAR_SCORING_RESULT, 42l);
+        variables.put(VAR_SCORING_RESULT, 42L);
 
         // Route message to workflow
         zeebeClient.newPublishMessageCommand() //
