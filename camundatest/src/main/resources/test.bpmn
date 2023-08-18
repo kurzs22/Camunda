@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0hnjr8a" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.14.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+  <bpmn:process id="Process_Test" name="Test" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" name="Start">
+      <bpmn:outgoing>Flow_14w2rm3</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_Ende" name="Ende">
+      <bpmn:incoming>Flow_1meznrz</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_14w2rm3" sourceRef="StartEvent_1" targetRef="Activity_AllesLoggen1" />
+    <bpmn:sequenceFlow id="Flow_1r8x7xe" sourceRef="Activity_AllesLoggen1" targetRef="Event_SendeNachricht" />
+    <bpmn:intermediateThrowEvent id="Event_SendeNachricht" name="Sende Nachricht">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="send-message" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1r8x7xe</bpmn:incoming>
+      <bpmn:outgoing>Flow_186ecgp</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_00pwe84" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="Flow_186ecgp" sourceRef="Event_SendeNachricht" targetRef="Activity_AllesLoggen2" />
+    <bpmn:sequenceFlow id="Flow_13dfcy3" sourceRef="Activity_AllesLoggen2" targetRef="Activity_EmpfangeNachricht" />
+    <bpmn:sequenceFlow id="Flow_1meznrz" sourceRef="Activity_AllesLoggen3" targetRef="Event_Ende" />
+    <bpmn:serviceTask id="Activity_AllesLoggen1" name="Alles loggen">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="allesLoggen" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_14w2rm3</bpmn:incoming>
+      <bpmn:outgoing>Flow_1r8x7xe</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_AllesLoggen2" name="Alles loggen">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="allesLoggen" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_186ecgp</bpmn:incoming>
+      <bpmn:outgoing>Flow_13dfcy3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_AllesLoggen3" name="Alles loggen">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="allesLoggen" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0xn3e90</bpmn:incoming>
+      <bpmn:outgoing>Flow_1meznrz</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0xn3e90" sourceRef="Activity_EmpfangeNachricht" targetRef="Activity_AllesLoggen3" />
+    <bpmn:receiveTask id="Activity_EmpfangeNachricht" name="Empfange Nachricht" messageRef="Message_2433v3e">
+      <bpmn:incoming>Flow_13dfcy3</bpmn:incoming>
+      <bpmn:outgoing>Flow_0xn3e90</bpmn:outgoing>
+    </bpmn:receiveTask>
+  </bpmn:process>
+  <bpmn:message id="Message_2433v3e" name="Message_Nachricht">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=requestId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_Test">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="159" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="165" y="142" width="24" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_19oipzp_di" bpmnElement="Event_Ende">
+        <dc:Bounds x="942" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="947" y="142" width="26" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0ur0o92_di" bpmnElement="Event_SendeNachricht">
+        <dc:Bounds x="452" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="429" y="75" width="82" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j9dosj_di" bpmnElement="Activity_AllesLoggen1">
+        <dc:Bounds x="290" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16h36d1_di" bpmnElement="Activity_AllesLoggen3">
+        <dc:Bounds x="800" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1d2ctmz_di" bpmnElement="Activity_AllesLoggen2">
+        <dc:Bounds x="420" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_110sd1p_di" bpmnElement="Activity_EmpfangeNachricht">
+        <dc:Bounds x="698" y="250" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_14w2rm3_di" bpmnElement="Flow_14w2rm3">
+        <di:waypoint x="195" y="117" />
+        <di:waypoint x="290" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1meznrz_di" bpmnElement="Flow_1meznrz">
+        <di:waypoint x="900" y="117" />
+        <di:waypoint x="942" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1r8x7xe_di" bpmnElement="Flow_1r8x7xe">
+        <di:waypoint x="390" y="117" />
+        <di:waypoint x="452" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_186ecgp_di" bpmnElement="Flow_186ecgp">
+        <di:waypoint x="470" y="135" />
+        <di:waypoint x="470" y="250" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13dfcy3_di" bpmnElement="Flow_13dfcy3">
+        <di:waypoint x="520" y="290" />
+        <di:waypoint x="698" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0xn3e90_di" bpmnElement="Flow_0xn3e90">
+        <di:waypoint x="748" y="250" />
+        <di:waypoint x="748" y="117" />
+        <di:waypoint x="800" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
