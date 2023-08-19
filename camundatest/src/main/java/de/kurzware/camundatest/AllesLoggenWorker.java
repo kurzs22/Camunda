@@ -11,7 +11,7 @@ import java.util.Map;
 @Slf4j
 public class AllesLoggenWorker {
 
-    private final int SLEEP_MILLIS = 10_000;
+    private final int SLEEP_MILLIS = 3_000;
     private final int ARRAY_SIZE = 500;
     private final int LOOP_SIZE = 400_000;
 

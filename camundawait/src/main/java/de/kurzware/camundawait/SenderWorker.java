@@ -1,4 +1,4 @@
-package de.kurzware.camundatest;
+package de.kurzware.camundawait;
 
 import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.gateway.protocol.GatewayOuterClass;
@@ -23,9 +23,9 @@ public class SenderWorker {
 
     private final RestTemplate restTemplate;
 
-    @JobWorker(type = "send-message")
+    @JobWorker(type = "nachrichtWeiterleiten")
     public Map<String, Object> sendMessage(ActivatedJob job) {
-        log.info("Send HTTP message to score customer [" + job + "]");
+        log.info("Forward HTTP message to score customer [" + job + "]");
 
         Map<String, Object> existingVariables = job.getVariablesAsMap();
         Map<String, Object> newVariables = new HashMap<>();
@@ -37,8 +37,7 @@ public class SenderWorker {
             newVariables.put(VAR_SCORING_REQUEST_ID, scoringRequestId);
         }
 
-
-        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8800/wait",
+        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/message",
                 scoringRequestId, String.class);
 
         // decrease retry counter
