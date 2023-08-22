@@ -10,7 +10,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
-// X6vq2+a#<-Sg
+// Example from Tutorial
 public class Main {
 
   private static final String ZEEBE_ADDRESS="048cf0f5-6990-49c3-aee7-c31a2db6d3b3.jfk-1.zeebe.camunda.io:443";
