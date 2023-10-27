@@ -30,7 +30,7 @@ public class Controller {
 
     @PostMapping
     public ResponseEntity<String> post(@RequestBody String body) {
-        ProcessInstanceEvent processTest = zeebeClient.newCreateInstanceCommand().bpmnProcessId("Process_Test")
+        ProcessInstanceEvent processTest = zeebeClient.newCreateInstanceCommand().bpmnProcessId("Process_TestError")
                 .latestVersion()
                 .send()
                 .join();

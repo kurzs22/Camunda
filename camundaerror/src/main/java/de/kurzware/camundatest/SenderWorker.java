@@ -38,7 +38,7 @@ public class SenderWorker {
         }
 
 
-        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8800/wait",
+        ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/wait",
                 scoringRequestId, String.class);
 
         // decrease retry counter
