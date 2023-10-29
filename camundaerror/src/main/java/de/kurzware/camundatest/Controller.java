@@ -23,6 +23,8 @@ public class Controller {
 
     public final String VAR_SCORING_RESULT = "scoringResult";
     public final static String ZEEBE_MESSAGE_SCORING = "Message_Nachricht";
+    public final static String ZEEBE_MESSAGE_RETRY = "Message_Retry";
+    public final static String ZEEBE_MESSAGE_CANCEL = "Message_Cancel";
     public final static int SLEEP_MILLIS = 10_000;
 
     public final ZeebeClient zeebeClient;
@@ -47,7 +49,7 @@ public class Controller {
         // Route message to workflow
         zeebeClient.newPublishMessageCommand() //
                 .messageName(ZEEBE_MESSAGE_SCORING) //
-                .correlationKey(responseString) //
+                .correlationKey("message_" + responseString) //
                 .variables(variables) //
                 .send().join();
 
@@ -62,6 +64,32 @@ public class Controller {
 
         ResponseEntity<String> response = restTemplate.postForEntity("http://localhost:8080/message",
                 responseString, String.class);
+
+        return new ResponseEntity<>(responseString, HttpStatus.OK);
+    }
+
+    @PostMapping("/retry")
+    public ResponseEntity<String> retryReceived(@RequestBody String responseString) {
+        log.info("Retry Received HTTP " + responseString);
+
+        // Route message to workflow
+        zeebeClient.newPublishMessageCommand() //
+                .messageName(ZEEBE_MESSAGE_RETRY) //
+                .correlationKey("retry_" + responseString) //
+                .send().join();
+
+        return new ResponseEntity<>(responseString, HttpStatus.OK);
+    }
+
+    @PostMapping("/cancel")
+    public ResponseEntity<String> cancelReceived(@RequestBody String responseString) {
+        log.info("Cancel Received HTTP " + responseString);
+
+        // Route message to workflow
+        zeebeClient.newPublishMessageCommand() //
+                .messageName(ZEEBE_MESSAGE_CANCEL) //
+                .correlationKey("cancel_" + responseString) //
+                .send().join();
 
         return new ResponseEntity<>(responseString, HttpStatus.OK);
     }
