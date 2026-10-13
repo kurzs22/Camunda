@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_03nbkbb" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.14.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.2.0">
+  <bpmn:message id="Message_0fjj4qp" name="Message_Retry">
+    <bpmn:extensionElements>
+      <zeebe:subscription correlationKey="=&#34;retry_&#34; + requestId" />
+    </bpmn:extensionElements>
+  </bpmn:message>
+  <bpmn:collaboration id="Collaboration_0cjb3fx">
+    <bpmn:participant id="Participant_0cvwoam" name="Handle error" processRef="Process_HandleErr" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_HandleErr" isExecutable="true">
+    <bpmn:startEvent id="Event_0xrzoip">
+      <bpmn:outgoing>Flow_1t19hyo</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_03udzoh">
+      <bpmn:incoming>Flow_1u9a1ik</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activity_1satnsy" name="Alles loggen">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="allesLoggen" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1t19hyo</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bderxq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:receiveTask id="Activity_0x634vp" name="Wait for retry" messageRef="Message_0fjj4qp">
+      <bpmn:incoming>Flow_0bderxq</bpmn:incoming>
+      <bpmn:outgoing>Flow_1u9a1ik</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="Flow_1t19hyo" sourceRef="Event_0xrzoip" targetRef="Activity_1satnsy" />
+    <bpmn:sequenceFlow id="Flow_1u9a1ik" sourceRef="Activity_0x634vp" targetRef="Event_03udzoh" />
+    <bpmn:sequenceFlow id="Flow_0bderxq" sourceRef="Activity_1satnsy" targetRef="Activity_0x634vp" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0cjb3fx">
+      <bpmndi:BPMNShape id="Participant_0cvwoam_di" bpmnElement="Participant_0cvwoam" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="600" height="250" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0xrzoip_di" bpmnElement="Event_0xrzoip">
+        <dc:Bounds x="223" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_03udzoh_di" bpmnElement="Event_03udzoh">
+        <dc:Bounds x="683" y="182" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0qvf1gc" bpmnElement="Activity_1satnsy">
+        <dc:Bounds x="321" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_16jnzx8" bpmnElement="Activity_0x634vp">
+        <dc:Bounds x="501" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1t19hyo_di" bpmnElement="Flow_1t19hyo">
+        <di:waypoint x="259" y="200" />
+        <di:waypoint x="321" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1u9a1ik_di" bpmnElement="Flow_1u9a1ik">
+        <di:waypoint x="601" y="200" />
+        <di:waypoint x="683" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bderxq_di" bpmnElement="Flow_0bderxq">
+        <di:waypoint x="421" y="200" />
+        <di:waypoint x="501" y="200" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
